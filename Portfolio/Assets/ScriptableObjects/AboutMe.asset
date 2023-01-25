@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73995f6717d77b488788bd2a06aea6d, type: 3}
+  m_Name: AboutMe
+  m_EditorClassIdentifier: 
+  starColor: {r: 1, g: 1, b: 1, a: 1}
+  title: About Me
+  date:
+    date: 0
+    month: 0
+    year: 0
+  titleImage: {fileID: 21300000, guid: 9844e9ce29a75214cb05ef2dcdd3c767, type: 3}
+  context: "Hi, My name is Sanchith R. Krishnan. I am a Programmer focused on developing
+    games\r"
+  links: []
+  subCategories:
+  - {fileID: 11400000, guid: a2d2ab15e4dd0bb4081c4103691b2801, type: 2}
+  - {fileID: 11400000, guid: 63ce1582aa3b14140af932be951c0faa, type: 2}
+  - {fileID: 11400000, guid: de5f0d99f84592b46a4438e4b5a2d14c, type: 2}
+  - {fileID: 11400000, guid: 2c45823951a0cc34a851c3c86a028da5, type: 2}

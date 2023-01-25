@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73995f6717d77b488788bd2a06aea6d, type: 3}
+  m_Name: Interactive Cat AR
+  m_EditorClassIdentifier: 
+  starColor: {r: 1, g: 0, b: 0.28702497, a: 1}
+  title: Interactive Cat AR
+  date:
+    date: 26
+    month: 8
+    year: 2021
+  titleImage: {fileID: 21300000, guid: 30caae3ef7d54d241a40f7036fe1a70e, type: 3}
+  context: Interactive Cat AR is an AR experience meant for experimenting and understanding
+    of how AR works on modern mobile devices. The game uses Markerless AR technology
+    powered by ARCore.
+  links:
+  - title: Full Post
+    url: https://dragtheryu.wordpress.com/2021/08/26/interactive-cat-ar/
+  - title: Itch.io
+    url: https://dragoryu.itch.io/interactive-cat-ar
+  subCategories: []
