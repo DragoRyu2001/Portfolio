@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button_Text
+  m_text: 1231234
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e612ac7ca0b1ccb408a4bdc2b9dbb226, type: 2}
   m_sharedMaterial: {fileID: 4557052319576561241, guid: e612ac7ca0b1ccb408a4bdc2b9dbb226, type: 2}
@@ -97,8 +97,8 @@ MonoBehaviour:
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 24
+  m_fontSizeMin: 6
+  m_fontSizeMax: 18
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
