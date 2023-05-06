@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private StarDetails startStar;
     [SerializeField] private DisplayInfo displayInfo;
     [SerializeField] private CameraMovement cameraMovement;
+    [SerializeField] private float startStarSize;
     private void Awake()
     {
         if (Instance == null)
@@ -28,6 +29,8 @@ public class GameManager : MonoBehaviour
     {
         mainStar = Instantiate(starPrefab, Vector3.zero, Quaternion.identity);
         mainStar.SetDetails(startStar);
+        mainStar.transform.localScale = Vector3.one * startStarSize;
+        mainStar.transform.GetChild(0).localScale = Vector3.one * 0.64f;
         cameraMovement.SetFocus(mainStar.transform);
         SetCurrentStar(mainStar);
     }
@@ -69,7 +72,7 @@ public class GameManager : MonoBehaviour
         }
         if (!isGrandParent)
         {
-            float y = 0.5f / (float)(levelDepth);
+            float y = (1/Mathf.PI) / (float)(levelDepth);
             maxY = 2 * ((myDetails.subCategories.Count) * y);
         }
         return maxY;
@@ -80,6 +83,8 @@ public class GameManager : MonoBehaviour
         displayInfo.gameObject.SetActive(true);
         displayInfo.ShowDetails(star.details);
         cameraMovement.SetFocus(transform);
+        if(star.details.name=="AboutMe")
+            AudioManager.Instance.StarClick();
     }
     public void ResetCamera()
     {

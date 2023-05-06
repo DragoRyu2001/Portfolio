@@ -26,20 +26,17 @@ public class Star : MonoBehaviour
             this.parent = parent;
             this.layer = parent.layer + 1;
             canMove = true;
-            transform.localScale = Vector3.one * .5f;
-
+            transform.localScale = Vector3.one * (1/(Mathf.PI));
         }
         else
         {
-
             this.layer = 1;
         }
-        radius = .5f / (layer);
-        transform.localScale = new Vector3(.5f, .5f, .5f);
+        radius = (1/Mathf.PI) / (layer);
         this.name = details.name;
         this.details = details;
         Material mat = GetComponent<MeshRenderer>().material;
-        mat.SetColor("_EmissionColor", details.starColor);
+        mat.SetColor("_Primary", details.starColor);
         GetComponent<MeshRenderer>().material = mat;
         currentAngle = Time.fixedDeltaTime * GameManager.Instance.rotateSpeed * Random.Range(.5f, 2f);
         pathParent.gameObject.SetActive(false);
@@ -49,11 +46,10 @@ public class Star : MonoBehaviour
     {
         if (details.subCategories.Count == 0) return;
         if (parent != null)
-            radiusSegment = parent.radiusSegment / (details.subCategories.Count * 2);
+            radiusSegment = parent.radiusSegment / (details.subCategories.Count * Mathf.PI);
         else
             radiusSegment = GameManager.Instance.radius;
         Debug.Log(this.name + "'s yMax: " + radiusSegment);
-        float x = 2 * radiusSegment;
 
         for (int i = 0; i < details.subCategories.Count; i++)
         {
@@ -71,7 +67,7 @@ public class Star : MonoBehaviour
         if (this.pathObjectPrefab == null)
             pathObjectPrefab = GameManager.Instance.PathObject;
         GameObject pathObj = Instantiate(pathObjectPrefab, transform.position, pathObjectPrefab.transform.rotation, pathParent);
-        pathObj.transform.localScale = Vector3.one * (4 * radius)*layer;
+        pathObj.transform.localScale = Mathf.PI* radius * layer * Vector3.one;
     }
     private void Update()
     {

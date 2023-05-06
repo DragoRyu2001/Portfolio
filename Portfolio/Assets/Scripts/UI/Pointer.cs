@@ -27,7 +27,7 @@ public class Pointer : MonoBehaviour
         select = transform.GetChild(0).GetComponent<Image>();
         selectColor = select.color;
 
-        cam= Camera.main;
+        cam ??= Camera.main;
 
         rectTransform= GetComponent<RectTransform>();
 
