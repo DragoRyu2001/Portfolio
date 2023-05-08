@@ -57,6 +57,8 @@ public class Pointer : MonoBehaviour
     #region UpdateFunctions
     private void SetState()
     {
+        if (cam == null)
+            cam = Camera.main;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(cam.transform.position,ray.direction, out RaycastHit hit,  5000f))
         {
