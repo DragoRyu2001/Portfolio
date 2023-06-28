@@ -83,8 +83,7 @@ public class GameManager : MonoBehaviour
         displayInfo.gameObject.SetActive(true);
         displayInfo.ShowDetails(star.details);
         cameraMovement.SetFocus(transform);
-        if(star.details.name=="AboutMe")
-            AudioManager.Instance.StarClick();
+        AudioManager.Instance.StarClick();
     }
     public void ResetCamera()
     {

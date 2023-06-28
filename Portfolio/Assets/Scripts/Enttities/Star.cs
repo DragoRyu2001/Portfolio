@@ -17,10 +17,11 @@ public class Star : MonoBehaviour
     private Transform pathParent;
     [SerializeField] 
     private bool canMove = false;
-
-    private MaterialPropertyBlock _mpb;
-    private MeshRenderer _meshRenderer;
     private GameObject pathObjectPrefab;
+
+    private bool _glow;
+    private float _glowValue;
+
     public void SetDetails(StarDetails details, Star parent = null)
     {
         if (parent != null)
@@ -37,11 +38,8 @@ public class Star : MonoBehaviour
         radius = (1/Mathf.PI) / (layer);
         this.name = details.name;
         this.details = details;
-        //Set Material
-        _meshRenderer = GetComponent<MeshRenderer>();
-        _mpb = new MaterialPropertyBlock();
-        _mpb.SetColor("_Primary", details.starColor);
-        _meshRenderer.SetPropertyBlock(_mpb);
+
+        gameObject.AddComponent<StarColour>();
 
         currentAngle = Time.fixedDeltaTime * GameManager.Instance.rotateSpeed * Random.Range(.5f, 2f);
         pathParent.gameObject.SetActive(false);
@@ -96,9 +94,4 @@ public class Star : MonoBehaviour
     {
         GameManager.Instance.DisplayInformation(this, transform);
     }
-    private void OnMouseOver()
-    {
-        
-    }
-
 }
