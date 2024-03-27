@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73995f6717d77b488788bd2a06aea6d, type: 3}
   m_Name: Universe Within
   m_EditorClassIdentifier: 
-  starColor: {r: 0.329069, g: 0.28657883, b: 0.5660378, a: 0}
-  title: Universe Within
-  date:
-    date: 0
-    month: 0
-    year: 0
-  titleImage: {fileID: 21300000, guid: 34bf6d73c0b50fb4eaa4b51f6d9d1f2a, type: 3}
-  context: 
-  links: []
-  subCategories: []
+  StarColor: {r: 0.329069, g: 0.28657883, b: 0.5660378, a: 0}
+  Title: Universe Within
+  Date:
+    Date: 0
+    Month: 0
+    Year: 0
+  TitleImage: {fileID: 21300000, guid: 6142938eec3cd454ca8c95d0f8e3a1ed, type: 3}
+  Context: Universe Within is a Mouse and Audio reactive shader which was written
+    in GLSL, in ShaderToy.
+  Links:
+  - Title: Link to Shader Toy
+    URL: https://www.shadertoy.com/view/Nt2czK
+  SubCategories: []

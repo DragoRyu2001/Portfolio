@@ -1,18 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System;
+using DragoRyu.Utilities;
+using Entities;
+using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
+using DisplayInfo = UI.DisplayInfo;
 
 public class GameManager : MonoBehaviour
 {
-    private Star mainStar;
-    private Star currentStar;
     public static GameManager Instance { get; private set; }
-
-    [SerializeField] private StarDetails startStar;
-    [SerializeField] private DisplayInfo displayInfo;
-    [SerializeField] private CameraMovement cameraMovement;
-    [SerializeField] private float startStarSize;
+    public Action HideAllDisplays;
+    public Action DisableAllStarColliders;
+    
+    [FormerlySerializedAs("startStar")]       [SerializeField] private StarDetails StartStar;
+    [FormerlySerializedAs("displayInfo")]     [SerializeField] private DisplayInfo DisplayInfo;
+    [FormerlySerializedAs("cameraMovement")]  [SerializeField] private CameraMovement CameraMovement;
+    [FormerlySerializedAs("startStarSize")]   [SerializeField] private float StartStarSize;
+    
+    private Star _mainStar;
+    private Star _currentStar;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -27,43 +34,51 @@ public class GameManager : MonoBehaviour
     }
     private void StartSequence()
     {
-        mainStar = Instantiate(starPrefab, Vector3.zero, Quaternion.identity);
-        mainStar.SetDetails(startStar);
-        mainStar.transform.localScale = Vector3.one * startStarSize;
-        mainStar.transform.GetChild(0).localScale = Vector3.one * 0.64f;
-        cameraMovement.SetFocus(mainStar.transform);
-        SetCurrentStar(mainStar);
+        _mainStar = Instantiate(StarPrefab, Vector3.zero, Quaternion.identity);
+        _mainStar.SetDetails(StartStar);
+        _mainStar.transform.localScale = Vector3.one * StartStarSize;
+        
+        Transform mainStarTransform;
+        
+        (mainStarTransform = _mainStar.transform).GetChild(0).localScale = Vector3.one * 0.64f;
+        CameraMovement.SetFocus(mainStarTransform);
+        
+        
+        SetCurrentStar(_mainStar);
+        
+        _mainStar.ShowDisplay();    
     }
 
     private void SetCurrentStar(Star star)
     {
-        if(currentStar!= null)
-            currentStar.ShowPath(false);
-        currentStar = star;
-        currentStar.ShowPath(true);
+        if(_currentStar!= null)
+            _currentStar.ShowPath(false);
+        _currentStar = star;
+        _currentStar.ShowPath(true);
+        if(star.Details.SubCategories.Count>0)
+            HideAllDisplays.SafeInvoke();
+        _currentStar.ShowChildrenDisplay();
     }
 
     //Common Settings
-    public Star starPrefab;
-    public float rotateSpeed = 0.5f;
-    public float radius = 1f;
-    public GameObject PathObject;
-    [SerializeField]
-    private float radiusSegment;
+    [FormerlySerializedAs("starPrefab")] public Star StarPrefab;
+    [FormerlySerializedAs("rotateSpeed")] public float RotateSpeed = 0.5f;
+    [FormerlySerializedAs("radius")] public float Radius = 1f;
+    [FormerlySerializedAs("pathObject")] public GameObject PathObject;
 
     private void FindRadius()
     {
-        float maxY = RecursiveRadius(radiusSegment, 1, startStar);
-        radius = maxY;
+        float maxY = RecursiveRadius(1, StartStar);
+        Radius = maxY;
     }
-    private float RecursiveRadius(float minY, int levelDepth, StarDetails myDetails)
+    private float RecursiveRadius(int levelDepth, StarDetails myDetails)
     {
         bool isGrandParent = false;
         float maxY = 0;
-        foreach (StarDetails star in myDetails.subCategories)
+        foreach (StarDetails star in myDetails.SubCategories)
         {
-            if (star.subCategories.Count == 0) continue;
-            float childRadius = RecursiveRadius(minY, levelDepth + 1, star);
+            if (star.SubCategories.Count == 0) continue;
+            float childRadius = RecursiveRadius(levelDepth + 1, star);
             if ( childRadius> maxY)
             {
                 isGrandParent = true;
@@ -72,23 +87,36 @@ public class GameManager : MonoBehaviour
         }
         if (!isGrandParent)
         {
-            float y = (1/Mathf.PI) / (float)(levelDepth);
-            maxY = 2 * ((myDetails.subCategories.Count) * y);
+            float y = (1/Mathf.PI) / levelDepth;
+            maxY = 2 * ((myDetails.SubCategories.Count) * y);
         }
         return maxY;
     }
-    public void DisplayInformation(Star star, Transform transform)
+    public void DisplayInformation(Star star, Transform starTransform)
     {
         SetCurrentStar(star);
-        displayInfo.gameObject.SetActive(true);
-        displayInfo.ShowDetails(star.details);
-        cameraMovement.SetFocus(transform);
+        
+        DisplayInfo.gameObject.SetActive(true);
+        DisplayInfo.ShowDetails(star.Details);
+        if (star.Details.SubCategories.Count > 0)
+        {
+            DisableAllStarColliders.SafeInvoke();
+        }
+        star.EnableColliderInChildren();
+        
+        CameraMovement.SetFocus(starTransform);
         AudioManager.Instance.StarClick();
     }
     public void ResetCamera()
     {
-        SetCurrentStar(mainStar);
-        cameraMovement.SetFocus(mainStar.transform);
+        SetCurrentStar(_mainStar);
+        DisableAllStarColliders.SafeInvoke();
+        _mainStar.EnableColliderInChildren();
+        _mainStar.EnableCollider();
+        _mainStar.ShowDisplay();
+        CameraMovement.SetFocus(_mainStar.transform);
     }
 
+
+    
 }

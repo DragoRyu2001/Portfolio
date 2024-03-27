@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ImageChangeToggle : MonoBehaviour
 {
-    [SerializeField]
-    private Sprite _deselectedImage;
-    [SerializeField]
-    private Sprite _selectedImage;
-    [SerializeField]
-    private UnityEvent<bool> _onClick;
+    [FormerlySerializedAs("deselectedImage")] [FormerlySerializedAs("_deselectedImage")] [SerializeField]
+    private Sprite DeselectedImage;
+    [FormerlySerializedAs("selectedImage")] [FormerlySerializedAs("_selectedImage")] [SerializeField]
+    private Sprite SelectedImage;
+    [FormerlySerializedAs("onClick")] [FormerlySerializedAs("_onClick")] [SerializeField]
+    private UnityEvent<bool> OnClick;
     private Image _image;
     private bool _isOn = false;
 
@@ -26,7 +27,7 @@ public class ImageChangeToggle : MonoBehaviour
         _isOn = !_isOn;
         if(_image == null)
             _image = GetComponent<Image>();
-        _image.sprite = _isOn ? _selectedImage : _deselectedImage;
-        _onClick.Invoke(_isOn);
+        _image.sprite = _isOn ? SelectedImage : DeselectedImage;
+        OnClick.Invoke(_isOn);
     }
 }

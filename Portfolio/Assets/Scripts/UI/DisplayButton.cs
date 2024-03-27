@@ -1,32 +1,35 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Networking;
+using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
+using Utilities;
 
-public class DisplayButton : MonoBehaviour
+namespace UI
 {
-    public Button buttonPrefab;
-    public void CreateButtons(List<CustomLinks> links)
+    public class DisplayButton : MonoBehaviour
     {
-        foreach(CustomLinks link in links)
+        [FormerlySerializedAs("buttonPrefab")] public Button ButtonPrefab;
+        public void CreateButtons(List<CustomLinks> links)
         {
-            Button button = Instantiate(buttonPrefab, this.transform);
-            button.onClick.AddListener(() => GoToLink(link.url));
-            button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = link.title;
+            foreach(var link in links)
+            {
+                var button = Instantiate(ButtonPrefab, this.transform);
+                button.onClick.AddListener(() => GoToLink(link.URL));
+                button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = link.Title;
+            }
         }
-    }
-    private void GoToLink(string url)
-    {
-        if (url == null || url == "") return;
-        Application.OpenURL(url);
-    }
-    public void CleanUp()
-    {
-        foreach(Transform t in transform)
+        private static void GoToLink(string url)
         {
-            Destroy(t.gameObject);
+            if (string.IsNullOrEmpty(url)) return;
+            Application.OpenURL(url);
+        }
+        public void CleanUp()
+        {
+            foreach(Transform t in transform)
+            {
+                Destroy(t.gameObject);
+            }
         }
     }
 }

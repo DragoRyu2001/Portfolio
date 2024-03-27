@@ -104,7 +104,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 2
+    serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,7 +117,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6544c0722fc96a347808631050ce4936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetGroup: {fileID: 1224078020}
+  TargetGroup: {fileID: 1224078020}
 --- !u!4 &240380044
 Transform:
   m_ObjectHideFlags: 0
@@ -315,11 +315,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29b823b5909b73443b520037c57f4208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundMusic: {fileID: 368251035}
-  _interfaceClick: {fileID: 368251037}
-  _bubbleClick: {fileID: 368251038}
-  _noteClick: {fileID: 368251039}
-  _planetNotes:
+  BackgroundMusic: {fileID: 368251035}
+  InterfaceClick: {fileID: 368251037}
+  BubbleClick: {fileID: 368251038}
+  NoteClick: {fileID: 368251039}
+  PlanetNotes:
   - {fileID: 8300000, guid: 0720d34c9dce9fa4e83ff9c58a1c41ec, type: 3}
 --- !u!82 &368251037
 AudioSource:
@@ -333,8 +333,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b2042c338cdcb844e9b8e682e0c437ff, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
-  m_Pitch: 1
+  m_Volume: 0.1
+  m_Pitch: 0.5
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -407,7 +407,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 1.1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -429,7 +429,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d6e628376cc980844beeee5da1d6d57a, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.073
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -743,9 +743,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da64588aff231146a41c89dc089dbe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deselectedImage: {fileID: 21300000, guid: 40cddd9a1e081d54d86e74d962464549, type: 3}
-  _selectedImage: {fileID: 21300000, guid: 4bd921d838facba46b775f06366de603, type: 3}
-  _onClick:
+  DeselectedImage: {fileID: 21300000, guid: 40cddd9a1e081d54d86e74d962464549, type: 3}
+  SelectedImage: {fileID: 21300000, guid: 4bd921d838facba46b775f06366de603, type: 3}
+  OnClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 368251036}
@@ -802,9 +802,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -876,9 +884,20 @@ MonoBehaviour:
   m_Dithering: 0
   m_ClearDepth: 1
   m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1037,7 +1056,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -1125,6 +1146,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
+    FocusDistance: 10
     m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
@@ -1246,15 +1268,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30491e78fcb3c149b3bbd0a759073eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startStar: {fileID: 11400000, guid: 43178aa5426139c4481a2a410037e572, type: 2}
-  displayInfo: {fileID: 578163455009318635}
-  cameraMovement: {fileID: 240380043}
-  startStarSize: 1
-  starPrefab: {fileID: 6340000442180909502, guid: 010d032000a89234b8cc6f713b38bb64, type: 3}
-  rotateSpeed: 0.5
-  radius: 5
+  StartStar: {fileID: 11400000, guid: 43178aa5426139c4481a2a410037e572, type: 2}
+  DisplayInfo: {fileID: 578163455009318635}
+  CameraMovement: {fileID: 240380043}
+  StartStarSize: 1
+  StarPrefab: {fileID: 6340000442180909502, guid: 010d032000a89234b8cc6f713b38bb64, type: 3}
+  RotateSpeed: 0.5
+  Radius: 5
   PathObject: {fileID: 1422630613434592, guid: 3e13da349392457419a5502b5b42a275, type: 3}
-  radiusSegment: 0.125
+  RadiusSegment: 0.125
 --- !u!1 &1798119007
 GameObject:
   m_ObjectHideFlags: 3
@@ -1372,6 +1394,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 1284188300}
     m_Modifications:
     - target: {fileID: 578163454351267532, guid: 86194677cefad5049b13b7918c01c032, type: 3}
@@ -1467,6 +1490,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86194677cefad5049b13b7918c01c032, type: 3}
 --- !u!114 &578163455009318635 stripped
 MonoBehaviour:

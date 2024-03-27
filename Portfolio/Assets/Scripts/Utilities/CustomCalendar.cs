@@ -1,20 +1,21 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.Serialization;
 
-[System.Serializable]
-public struct CustomCalendar
+namespace Utilities
 {
-    public int date;
-    public int month;
-    public int year;
-    public DateTime GetDateTime()
+    [System.Serializable]
+    public struct CustomCalendar
     {
-        return new DateTime(year, month, date);
-    }
-    public string GetDateTimeText()
-    {
-        return date + "/" + month + "/" + year;
+        [FormerlySerializedAs("date")] public int Date;
+        [FormerlySerializedAs("month")] public int Month;
+        [FormerlySerializedAs("year")] public int Year;
+        public DateTime GetDateTime()
+        {
+            return new DateTime(Year, Month, Date);
+        }
+        public string GetDateTimeText()
+        {
+            return Date + "/" + Month + "/" + Year;
+        }
     }
 }

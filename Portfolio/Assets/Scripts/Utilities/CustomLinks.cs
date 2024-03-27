@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.Serialization;
 
-[System.Serializable]
-public struct CustomLinks
+namespace Utilities
 {
-    public string title;
-    public string url;
+    [System.Serializable]
+    public struct CustomLinks
+    {
+        [FormerlySerializedAs("title")] public string Title;
+        [FormerlySerializedAs("url")] public string URL;
 
+    }
 }

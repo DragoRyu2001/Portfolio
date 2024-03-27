@@ -1,104 +1,105 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class Pointer : MonoBehaviour
+namespace UI
 {
-    private Image select;
-    private Color selectColor;
-    private float selectOpacity;
-
-    [SerializeField] private float speed;
-    [SerializeField] private Camera cam;
-
-    private RectTransform rectTransform;
-
-    private bool isSelectUI;
-    private enum PointerState
+    public class Pointer : MonoBehaviour
     {
-        Deselect,
-        Select
-    }
-    private PointerState state;
-    private void Start()
-    {
-        select = transform.GetChild(0).GetComponent<Image>();
-        selectColor = select.color;
+        private Image _select;
+        private Color _selectColor;
+        private float _selectOpacity;
 
-        cam ??= Camera.main;
+        [FormerlySerializedAs("speed")] [SerializeField] private float Speed;
+        [FormerlySerializedAs("cam")] [SerializeField] private Camera Cam;
 
-        rectTransform= GetComponent<RectTransform>();
+        private RectTransform _rectTransform;
 
-        Cursor.visible = false;
-    }
-    private void OnApplicationFocus(bool focus)
-    {
-        if(focus)
+        private bool _isSelectUI;
+        private enum PointerState
+        {
+            DESELECT,
+            SELECT
+        }
+        private PointerState _state;
+        private void Start()
+        {
+            _select = transform.GetChild(0).GetComponent<Image>();
+            _selectColor = _select.color;
+
+            Cam ??= Camera.main;
+
+            _rectTransform= GetComponent<RectTransform>();
+
             Cursor.visible = false;
-    }
-    void Update()
-    {
-        UpdatePosition();
-        SetState();
-        switch(state)
-        {
-            case PointerState.Deselect:
-                DeSelectLogic();
-                break;
-            case PointerState.Select:
-                SelectLogic();
-                break;
         }
-        UpdateImage();
+        private void OnApplicationFocus(bool focus)
+        {
+            if(focus)
+                Cursor.visible = false;
+        }
+        void Update()
+        {
+            UpdatePosition();
+            SetState();
+            switch(_state)
+            {
+                case PointerState.DESELECT:
+                    DeSelectLogic();
+                    break;
+                case PointerState.SELECT:
+                    SelectLogic();
+                    break;
+            }
+            UpdateImage();
         
-    }
-    #region UpdateFunctions
-    private void SetState()
-    {
-        if (cam == null)
-            cam = Camera.main;
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(cam.transform.position,ray.direction, out RaycastHit hit,  5000f))
+        }
+        #region UpdateFunctions
+        private void SetState()
         {
-            if (hit.transform.CompareTag("Star"))
-                state = PointerState.Select;
+            if (Cam == null)
+                Cam = Camera.main;
+            Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
+            if(Physics.Raycast(Cam.transform.position,ray.direction, out RaycastHit hit,  5000f))
+            {
+                if (hit.transform.CompareTag("Star"))
+                    _state = PointerState.SELECT;
+                else
+                    _state = PointerState.DESELECT;
+            }
             else
-                state = PointerState.Deselect;
+            {
+                _state = PointerState.DESELECT;
+            }
         }
-        else
+        private void UpdatePosition()
         {
-            state = PointerState.Deselect;
+            _rectTransform.position = Input.mousePosition;
         }
-    }
-    private void UpdatePosition()
-    {
-        rectTransform.position = Input.mousePosition;
-    }
 
-    private void SelectLogic()
-    {
-        if (selectOpacity >= 1)
+        private void SelectLogic()
         {
-            selectOpacity = 1;
-            return;
+            if (_selectOpacity >= 1)
+            {
+                _selectOpacity = 1;
+                return;
+            }
+            _selectOpacity+= Time.deltaTime*Speed;
         }
-        selectOpacity+= Time.deltaTime*speed;
-    }
-    private void DeSelectLogic()
-    {
-        if (selectOpacity <= 0)
+        private void DeSelectLogic()
         {
-            selectOpacity = 0;
-            return;
+            if (_selectOpacity <= 0)
+            {
+                _selectOpacity = 0;
+                return;
+            }
+            _selectOpacity -= Time.deltaTime*Speed;
         }
-        selectOpacity -= Time.deltaTime*speed;
+        private void UpdateImage()
+        {
+            _selectColor.a = _selectOpacity;
+            _select.color = _selectColor;
+        }
+        #endregion
     }
-    private void UpdateImage()
-    {
-        selectColor.a = selectOpacity;
-        select.color = selectColor;
-    }
-    #endregion
 }

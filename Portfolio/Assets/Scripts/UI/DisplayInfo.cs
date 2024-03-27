@@ -1,60 +1,67 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+using DragoRyu.Utilities;
+using ScriptableObjects;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
-public class DisplayInfo : MonoBehaviour
+namespace UI
 {
-    [SerializeField] TextMeshProUGUI titleText;
-    [SerializeField] TextMeshProUGUI descriptionText;
-    [SerializeField] TextMeshProUGUI dateTimeText;
-    [SerializeField] Image titleImage;
-    [SerializeField] DisplayButton displayButton;
+    public class DisplayInfo : MonoBehaviour
+    {
+        public Action ClosePopupAction;
+        
+        [FormerlySerializedAs("titleText")] [SerializeField] TextMeshProUGUI TitleText;
+        [FormerlySerializedAs("descriptionText")] [SerializeField] TextMeshProUGUI DescriptionText;
+        [FormerlySerializedAs("dateTimeText")] [SerializeField] TextMeshProUGUI DateTimeText;
+        [FormerlySerializedAs("titleImage")] [SerializeField] Image TitleImage;
+        [FormerlySerializedAs("displayButton")] [SerializeField] DisplayButton DisplayButton;
+        
+        
+        public void ShowDetails(StarDetails itemDetails)
+        {
+            CleanUp();
+            if(itemDetails.Title!=string.Empty)
+            {
+                TitleText.text = itemDetails.Title;
+                TitleText.gameObject.SetActive(true);
+            }
+            if(itemDetails.TitleImage!=null)
+            {
+                TitleImage.gameObject.SetActive(true);
+                TitleImage.sprite = itemDetails.TitleImage;
+                TitleImage.preserveAspect = true;
+            }
+            if(itemDetails.Context!=string.Empty)
+            {
+                DescriptionText.gameObject.SetActive(true);
+                DescriptionText.text = itemDetails.Context;
+            }
+            if(itemDetails.Date.Year!=0)
+            {
+                DateTimeText.gameObject.SetActive(true);
+                DateTimeText.text = itemDetails.Date.GetDateTimeText();
+            }
 
-    public void ShowDetails(StarDetails itemDetails)
-    {
-        CleanUp();
-        if(itemDetails.title!="")
-        {
-            titleText.text = itemDetails.title;
-            titleText.gameObject.SetActive(true);
+            if (itemDetails.Links.Count <= 0) return;
+            DisplayButton.gameObject.SetActive(true);
+            DisplayButton.CreateButtons(itemDetails.Links);
         }
-        if(itemDetails.titleImage!=null)
+        public void ClosePopUp()
         {
-            titleImage.gameObject.SetActive(true);
-            titleImage.sprite = itemDetails.titleImage;
-            titleImage.preserveAspect = true;
+            CleanUp();
+            GameManager.Instance.ResetCamera();
+            gameObject.SetActive(false);
+            ClosePopupAction.SafeInvoke();
         }
-        if(itemDetails.context!="")
+        private void CleanUp()
         {
-            descriptionText.gameObject.SetActive(true);
-            descriptionText.text = itemDetails.context;
+            TitleText.gameObject.SetActive(false);
+            DescriptionText.gameObject.SetActive(false);
+            DateTimeText.gameObject.SetActive(false);
+            TitleImage.gameObject.SetActive(false);
+            DisplayButton.CleanUp();
         }
-        if(itemDetails.date.year!=0)
-        {
-            dateTimeText.gameObject.SetActive(true);
-            dateTimeText.text = itemDetails.date.GetDateTimeText();
-        }
-        if(itemDetails.links.Count>0)
-        {
-            displayButton.gameObject.SetActive(true);
-            displayButton.CreateButtons(itemDetails.links);
-        }
-    }
-    public void ClosePopUp()
-    {
-        CleanUp();
-        GameManager.Instance.ResetCamera();
-        gameObject.SetActive(false);
-    }
-    private void CleanUp()
-    {
-        titleText.gameObject.SetActive(false);
-        descriptionText.gameObject.SetActive(false);
-        dateTimeText.gameObject.SetActive(false);
-        titleImage.gameObject.SetActive(false);
-        displayButton.CleanUp();
     }
 }

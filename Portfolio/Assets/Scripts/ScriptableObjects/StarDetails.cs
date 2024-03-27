@@ -1,19 +1,20 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Serialization;
+using Utilities;
 
-[CreateAssetMenu(fileName ="StarDetail", menuName ="ScriptableObjects/Star")]
-public class StarDetails : ScriptableObject
+namespace ScriptableObjects
 {
-    public Color starColor;
-    public string title;
-    public CustomCalendar date;
-    public Sprite titleImage;
-    [TextArea]
-    public string context;
-    public List<CustomLinks> links;
-    public List<StarDetails> subCategories;
+    [CreateAssetMenu(fileName ="StarDetail", menuName ="ScriptableObjects/Star")]
+    public class StarDetails : ScriptableObject
+    {
+        [FormerlySerializedAs("starColor")] public Color StarColor;
+        [FormerlySerializedAs("title")] public string Title;
+        [FormerlySerializedAs("date")] public CustomCalendar Date;
+        [FormerlySerializedAs("titleImage")] public Sprite TitleImage;
+        [FormerlySerializedAs("context")] [TextArea]
+        public string Context;
+        [FormerlySerializedAs("links")] public List<CustomLinks> Links;
+        [FormerlySerializedAs("subCategories")] public List<StarDetails> SubCategories;
+    }
 }
